@@ -219,6 +219,12 @@ def Plot_xx(y, x1, x2, filename='', num=1,
     if Savefig: plt.savefig(f'{filename}_plot.png')
         
     return fig, ax
+
+
+def add_grids():
+    plt.grid(True, which='major', color='grey',linestyle='-',alpha=0.5)  # style of major grid lines
+    plt.grid(True, which='minor', color='grey', linestyle='--',alpha=0.5)  # style of minor grid lines
+    
 #
 
 #%%

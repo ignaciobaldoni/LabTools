@@ -9,6 +9,8 @@ Created on Wed Apr  5 14:31:49 2023
 import pandas as pd
 import numpy as np
 from scipy import integrate, fft
+import os
+
 
 
 #%% Readout from CSV files taken with a USB stick
@@ -16,7 +18,10 @@ from scipy import integrate, fft
 def readCXA_usb(folder, fileName,Names= ['Frequency','Variable']):
     print('reading cxa output from USB stick...')
     
-    CXA_output = pd.read_csv(folder+fileName,
+    
+    joined_path = os.path.join(folder, fileName)
+    
+    CXA_output = pd.read_csv(joined_path,
                              skiprows=61,
                              sep=',', 
                              names = Names)
@@ -43,15 +48,16 @@ def readOSA_usb(folder, fileName):
 #%% Phase stations 53100a readout from csv exported files. Note that it is not for
 ### .tim files.
 
-def PhaseStation_PhaseNoise_csv(folder,fileName):
+# def PhaseStation_PhaseNoise_csv(folder,fileName):
     
-    if '.csv' not in fileName: 
-        raise ValueError
-        print('Wrong file type')
-    else:
-        phase_Station_output = pd.read_csv(folder+fileName, sep=',', names= ['Frequency','PSD'])
+#     if '.csv' not in fileName: 
+#         raise ValueError
+#         print('Wrong file type')
+#     else:
+#         phase_Station_output = pd.read_csv(folder+fileName, sep=',', names= ['Frequency','PSD'])
+        
 
-    return phase_Station_output.Frequency, phase_Station_output.PSD
+#     return phase_Station_output.Frequency, phase_Station_output.PSD
         
 
 def PhaseStation_adev_csv(folder,fileName):
@@ -93,19 +99,39 @@ def Watt_to_dBm(value_in_Watt):
 
 
 #%% Noises contribution
+def dbm_to_mw(dbm):
+    """
+    Converts dBm (decibel-milliwatts) to mW (milliwatts).
+    
+    Args:
+        dbm (float): The power value in dBm.
+    
+    Returns:
+        float: The power value in mW.
+    """
+    return 10 ** (dbm / 10)
 
-def therman_noise(Optical_Power = 1e-3):
+
+def thermal_noise(MW_Power = 0, unit = 'dBm'):
     '''To be fully understood... (from Merits of PM Noise Measurement Over Noise
-    Figure: A Study at Microwave Frequencies (2006)'''
+    Figure: A Study at Microwave Frequencies (2006)
+    
+    Microwave power is in dBm
+    '''
+    
+    if unit == 'dBm':
+        Power = dbm_to_mw(MW_Power)
+    if unit == 'mW':
+        Power = MW_Power
     
     boltzmann_constant = 1.38064852e-23
 
     RoomTemperature = 300
 
-    L_f = boltzmann_constant * RoomTemperature/2/Optical_Power
+    L_f = boltzmann_constant * RoomTemperature/2/Power
 
     Lf_dBc_Hz = 10*np.log10(L_f)
-    print(Lf_dBc_Hz,'dBc/Hz')
+    print('Thermal noise:', Lf_dBc_Hz,'dBc/Hz')
     
     return Lf_dBc_Hz
 
