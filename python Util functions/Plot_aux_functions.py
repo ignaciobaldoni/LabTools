@@ -86,6 +86,7 @@ def makeTable(frequency, psd, fig,  x_pos = 0.5, y_pos=0.6,
     
     the_table.auto_set_font_size(False)
     the_table.set_fontsize(10)
+
     
     # return clust_data
     return one_value

@@ -1,0 +1,1 @@
+"C:\Users\ibaldoni\Anaconda3\pythonw.exe" "C:\Users\ibaldoni\Desktop\Bot\BatFile_Ichimoku.py"

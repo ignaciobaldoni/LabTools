@@ -8,12 +8,12 @@
 #
 ################################################################################
 
-import visa
+import pyvisa
 
 
 def find(searchString):
 
-    resourceManager = visa.ResourceManager()
+    resourceManager = pyvisa.ResourceManager()
 
     print('Find with search string \'%s\':' % searchString)
     devices = resourceManager.list_resources(searchString)
@@ -56,3 +56,4 @@ find('TCPIP?*hislip?*INSTR')
 find('ASRL?*INSTR')
 
 print('Done.')
+

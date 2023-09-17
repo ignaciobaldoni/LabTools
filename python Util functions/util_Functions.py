@@ -216,7 +216,11 @@ def jitter_calc(psd, freqs,carrier):
     
     return int_pn_rad, int_pn_sec
 
-
+def add_zero_to_date(dd, mm):
+    month = '0'+str(mm) if len(str(mm)) == 1 else mm
+    day = '0'+str(dd) if len(str(dd)) == 1 else dd
+    
+    return day, month
 
 
     

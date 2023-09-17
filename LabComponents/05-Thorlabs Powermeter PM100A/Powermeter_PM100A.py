@@ -56,6 +56,17 @@ class Thorlabs_PM100A:
           raise SystemExit(1)
           
           
+    def setWavelength(self,wavelength_nm):
+        '''
+
+        Returns measured power in mW
+        -------
+
+        '''
+        
+        self.visaobj.write(f'SENSe:CORRection:WAVElength {wavelength_nm}')
+
+
 
     def readPower(self):
         '''
@@ -74,7 +85,8 @@ class Thorlabs_PM100A:
 
 if __name__ == '__main__':
 
-    resourceStr = 'USB0::0x1313::0x8079::P1001184::INSTR'
+    resourceStr = 'USB0::0x1313::0x8078::PM002940::INSTR'
     powermeter = Thorlabs_PM100A(resourceStr)
+    powermeter.setWavelength(1542)
     power = powermeter.readPower()
     
